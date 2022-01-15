@@ -1,0 +1,11 @@
+.listTitle {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .title {
+    font-size: 40px;
+    font-weight: bold;
+  }
+}

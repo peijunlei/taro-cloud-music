@@ -1,0 +1,22 @@
+.btn {
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  :global {
+    .at-icon {
+      margin-top: 4px;
+    }
+  }
+  &.more {
+    border: 2px solid #ddd;
+    background-color: #fff;
+    padding-left: 16px;
+  }
+  &.play {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  .title {
+  }
+}
