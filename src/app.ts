@@ -1,8 +1,7 @@
 import { Component } from "react";
-
+import './styles/icon.scss'
 import 'default-passive-events';//编译h5 会有警告 解决 
 import './app.scss';
-import 'taro-ui/dist/style/index.scss' // 全局引入一次即可
 class App extends Component {
   componentDidMount() {}
 

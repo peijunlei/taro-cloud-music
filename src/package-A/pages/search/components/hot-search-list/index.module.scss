@@ -1,0 +1,52 @@
+.hotSearchList {
+  padding: 0 20px;
+  .title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .list {
+    .listItem {
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      .num {
+        color: #ff4949;
+        font-size: 30px;
+        font-weight: bold;
+        width: 60px;
+      }
+      .info {
+        flex: 1;
+        .searchWord {
+          display: flex;
+          align-items: center;
+          .name {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+          }
+          .icon {
+            margin-left: 20px;
+            &-1,&-2 {
+              width: 82px;
+              height: 42px;
+            }
+            &-5 {
+              width: 36px;
+              height: 42px;
+            }
+          }
+        }
+        .content {
+          color: #999;
+          line-height: 40px;
+          @include ellipsis();
+        }
+      }
+      .score {
+        width: 120px;
+        color: #ccc;
+      }
+    }
+  }
+}

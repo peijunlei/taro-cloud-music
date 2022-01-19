@@ -1,20 +1,12 @@
-@mixin ellipsis($line: 1) {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: $line; //行数
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-}
+
 .wrapper {
   height: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  :global {
-    .at-col {
-      padding: 0 10px;
-      margin-bottom: 10px;
+  :global{
+    .taroify-flex-item{
+      margin-bottom: 20px;
     }
   }
   .imgWrapper {
@@ -32,11 +24,5 @@
       right: 10px;
       
     }
-  }
-  .name {
-    width: 100%;
-    color: $primary-text-color;
-    line-height:28px;
-    @include ellipsis(2)
   }
 }

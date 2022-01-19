@@ -1,0 +1,26 @@
+.searchSuggestion {
+  padding: 0 60px;
+  .searchVal {
+    font-size: 30px;
+    color: $primary-color;
+  }
+  .list {
+    .listItem {
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      :global {
+        .at-icon {
+          color: #999;
+        }
+      }
+      .keyword {
+        margin-left: 20px;
+        flex: 1;
+        color: #666;
+        @include ellipsis()
+      }
+    }
+  }
+}

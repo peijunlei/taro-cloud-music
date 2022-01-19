@@ -1,0 +1,46 @@
+.listItem {
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  border-bottom: 1px solid #f0f0f0;
+  :global {
+    .at-icon {
+      font-size: 50px;
+      color: #ccc;
+    }
+  }
+  .info {
+    flex: 1;
+    .wraperName {
+      @include ellipsis();
+      color: #333;
+      .name {
+        &.highlight {
+          color: $primary-color;
+        }
+      }
+    }
+
+    .ar {
+      display: flex;
+      align-items: center;
+      color: #999;
+      :global {
+        .icon {
+          font-size: 36px;
+          color: $primary-red;
+        }
+      }
+      .arName {
+        @include ellipsis();
+        margin-left: 10px;
+        .name {
+          &.highlight {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}

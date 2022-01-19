@@ -3,6 +3,9 @@
 // @flow 
 import CButton from '@/components/c-button';
 import { playCountAddUnit } from '@/utils/common';
+import { Flex } from '@taroify/core';
+import { Play } from '@taroify/icons';
+
 import { View, Image, Text } from '@tarojs/components';
 import classNames from 'classnames';
 import React, { FC } from 'react';
@@ -14,24 +17,24 @@ type Props = {
 const Recommend = ({ list }: Props) => {
   return (
     <View className={styles.wrapper}>
-      <View className='at-row at-row--wrap'>
+      <Flex wrap="wrap" gutter={10}>
         {
           list.length > 0 && list.map((item, index) =>
-            <View className='at-col at-col-4' key={index}>
+            <Flex.Item span={8} key={index}>
               <View className={styles.imgWrapper}>
                 <CButton
                   type='play'
                   title={playCountAddUnit(item.playCount)}
                   className={styles.playCount}
-                  prefix={<View className='at-icon at-icon-play'></View>}
+                  prefix={<Play />}
                 />
                 <Image src={item.picUrl} className={styles.img} />
               </View>
-              <View className={styles.name}>{item.name}</View>
-            </View>
+              <View className={classNames('taroify-ellipsis--l2')}>{item.name}</View>
+            </Flex.Item>
           )
         }
-      </View>
+      </Flex>
     </View>
   );
 };

@@ -8,7 +8,7 @@ class HomeStore {
     makeAutoObservable(this);
   }
   /**搜索关键词 */
-  defaultSearch = '1';
+  defaultSearch = '搜索歌曲';
   /**banner 数据 */
   banners = []
   /**推荐歌单 */

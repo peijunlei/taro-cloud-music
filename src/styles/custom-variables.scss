@@ -1,3 +1,17 @@
 $primary-color: #6190e8;
 $primary-text-color: #333;
+
 $placeholder-color: #f7f7f7;
+
+$primary-red: #ff4949;
+$primary-yellow: #ffc82c;
+$primary-green: #13ce66;
+
+@mixin ellipsis($line: 1) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line; //行数
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}

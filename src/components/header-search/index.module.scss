@@ -1,21 +1,31 @@
 .searchWrapper {
-  padding: 0 40px;
-  height: 80px;
-  border-radius: 40px;
-  background-color: $placeholder-color;
-  display: flex;
-  align-items: center;
-  color: #999;
-  font-size: 28px;
+  padding: 0 20px;
+  background-color: #fff;
+  padding-bottom: 20px;
   &.fixed {
     position: sticky;
     top: 0;
     left: 0;
     z-index: 2;
   }
-  .ipt {
-    height: 100%;
-    padding-left: 20px;
-    caret-color: $primary-color;
+  .main {
+    padding: 0 40px;
+    height: 80px;
+    border-radius: 40px;
+    background-color: $placeholder-color;
+    display: flex;
+    align-items: center;
+    color: #999;
+    font-size: 28px;
+
+    .ipt {
+      width: 100%;
+      height: 100%;
+      padding-left: 20px;
+      caret-color: $primary-color;
+      //兼容  h5
+      display: flex;
+      align-items: center;
+    }
   }
 }

@@ -38,20 +38,21 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
+    "@taroify/core": "^0.0.24-alpha.1",
     "@tarojs/cli": "3.4.0",
     "@tarojs/components": "3.4.0",
     "@tarojs/plugin-framework-react": "3.4.0",
     "@tarojs/react": "3.4.0",
     "@tarojs/runtime": "3.4.0",
     "@tarojs/taro": "3.4.0",
+    "ahooks": "^3.1.7",
     "classnames": "^2.3.1",
     "default-passive-events": "^2.0.0",
     "mobx": "^6.3.12",
     "mobx-react": "^7.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "taro-hooks": "latest",
-    "taro-ui": "^3.1.0-beta.2"
+    "taro-hooks": "^1.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

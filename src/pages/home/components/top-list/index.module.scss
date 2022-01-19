@@ -34,6 +34,7 @@
    justify-content: space-evenly;
    padding-left: 20px;
    .trackItem{
+     color: #666;
     @include ellipsis()
    }
   }

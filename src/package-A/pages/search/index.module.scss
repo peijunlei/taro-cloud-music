@@ -1,4 +1,8 @@
 .wrapper {
   height: 100%;
-  padding:0 20px;
+  .con {
+    .searchList {
+      padding: 0 20px;
+    }
+  }
 }

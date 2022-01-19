@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Input, View } from '@tarojs/components';
+import { Arrow } from "@taroify/icons"
 import { noop } from '@/globalType';
 import styles from './index.module.scss'
 import { FC } from 'react';
@@ -24,7 +25,7 @@ const ListTitle: FC<Props> = (props) => {
       <View className={styles.title}>{title}</View>
       <CButton
         title='更多'
-        suffix={<View className='at-icon at-icon-chevron-right'></View>}
+        suffix={<Arrow />}
         moreLink={moreLink}
       />
     </View>

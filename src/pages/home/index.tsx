@@ -19,7 +19,7 @@ const Index = () => {
   const init = async () => {
     const result = await Promise.all([searchDefault(), homeBanner(), personalized(), toplistDetail()])
     console.log(result);
-    result[0].res && home.setDefaultSearch(result[0].res.data.realkeyword)
+    result[0].res && home.setDefaultSearch(result[0].res.data.showKeyword)
     result[1].res && home.setBanners(result[1].res.banners)
     result[2].res && home.setPersonalizedList(result[2].res.result)
     result[3].res && home.setToplist(result[3].res.list)
