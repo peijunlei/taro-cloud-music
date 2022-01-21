@@ -1,28 +1,44 @@
-import React, { CSSProperties, FC, useEffect, useRef } from "react";
-import { Button, View, Text, Image } from "@tarojs/components";
+import React, { CSSProperties } from "react";
+import {  View, Text, Image } from "@tarojs/components";
 import { Play, ShareOutlined, PlayCircleOutlined } from '@taroify/icons';
-import VirtualList from '@tarojs/components/virtual-list'
 import styles from './index.module.scss'
 import classnames from "classnames";
 import useData from "./useData";
 import CButton from "@/components/c-button";
 import { playCountAddUnit } from "@/utils/common";
-import SizeBox from "@/components/size-box";
-import { useVirtualList } from "ahooks";
+import { useToggle, useVirtualList } from "ahooks";
 import CScrollvView from "@/components/c-scroll-view";
 import ListItem from "./components/list-item/list-item";
 import { pxTransform } from "@tarojs/taro";
-import { Empty } from "@taroify/core";
+import { ShareSheet } from "@taroify/core";
 import Loading from "@/components/loading";
 import EmptyError from "@/components/empty";
 
 
-const BgColor = {
-  "S": 'pink'
+const BasicShareSheet = ({ open, toggle }) => {
+  const handleSelect=(e) => {
+    toggle()
+    console.log(e);
+    
+  }
+  return (
+    <ShareSheet open={open} onSelect={handleSelect} onClose={toggle} onCancel={toggle}>
+      <ShareSheet.Header title="立即分享给好友" />
+      <ShareSheet.Options>
+        <ShareSheet.Option icon="wechat" name="微信" openType="share" />
+        <ShareSheet.Option icon="wechat-moments" name="朋友圈" />
+        <ShareSheet.Option icon="poster" name="分享海报" />
+        <ShareSheet.Option icon="weapp-qrcode" name="小程序码" />
+      </ShareSheet.Options>
+      <ShareSheet.Button type="cancel">取消</ShareSheet.Button>
+    </ShareSheet>
+  )
 }
 
 const SongListDetail = () => {
   const { data, loading, error } = useData()
+  const [open, { toggle }] = useToggle(false)
+
   if (!loading && !data) {
     return (
       <EmptyError />
@@ -49,15 +65,15 @@ const SongListDetail = () => {
                 />
               </View>
               <View className={styles.info_right}>
-                <View className={classnames(styles.name,'taroify-ellipsis')}> {data.name}</View>
+                <View className={classnames(styles.name, 'taroify-ellipsis')}> {data.name}</View>
                 <View className={styles.creator}>
                   <Image src={data.creator.avatarUrl} className={styles.avatarUrl} />
-                  <View className={classnames(styles.nickname,'taroify-ellipsis')}> {data.creator.nickname}</View>
+                  <View className={classnames(styles.nickname, 'taroify-ellipsis')}> {data.creator.nickname}</View>
                 </View>
                 <View className={classnames(styles.description, 'taroify-ellipsis--l3')}> {data.description}</View>
               </View>
             </View>
-            <View className={styles.share}>
+            <View className={styles.share} onClick={toggle}>
               <ShareOutlined />
               <Text>分享给微信好友</Text>
             </View>
@@ -68,7 +84,7 @@ const SongListDetail = () => {
             <PlayCircleOutlined size={20} style={{ width: pxTransform(60) }} />
             {/* <SizeBox width={20} /> */}
             <Text>播放全部</Text>
-            <Text className={styles.grey}>{`(共${data.trackCount}首)`}</Text>
+            <Text className={styles.grey}>{`(共${data.tracks.length}首)`}</Text>
           </View>
           {/* <CScrollvView
             className={styles.virtual_list}
@@ -91,27 +107,8 @@ const SongListDetail = () => {
             }
           </View>
         </View>
+        < BasicShareSheet open={open} toggle={toggle} />
       </View>
   )
 };
-interface IRow {
-  /** 组件 ID */
-  id: string;
-  /** 单项的样式，样式必须传入组件的 style 中 */
-  style?: CSSProperties;
-  /** 组件渲染的数据 */
-  data: SongListDetails.Track;
-  /** 组件渲染数据的索引 */
-  index: number;
-  /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
-  isScrolling?: boolean;
-}
-
-const Row = React.memo<IRow>(({ id, index, style, data }) => {
-  return (
-    <View id={id} className={styles.list_item} style={style}>
-      Row {index} : {data.name}
-    </View>
-  );
-})
 export default SongListDetail;
