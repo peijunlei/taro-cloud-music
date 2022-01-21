@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, Text, View } from '@tarojs/components';
+import { Button, ScrollView, Text, View } from '@tarojs/components';
 import { useRequest } from 'taro-hooks';
 
 interface Result {
@@ -30,55 +30,64 @@ function getLoadMoreList(nextId: string | undefined, limit: number): Promise<Res
 
 export default () => {
   const ref = useRef();
-  const [val,setValue]=useState('');
-  const { data, loading, loadMore, loadingMore, noMore,reload,run } = useRequest(
-    (d) =>{
+  const [val, setValue] = useState('');
+  const { data, loading, loadMore, loadingMore, noMore, reload, run } = useRequest(
+    (d) => {
       console.log('=================d===================');
       console.log(d);
       console.log('====================================');
-      
-      return  getLoadMoreList(d?.nextId, 4)
+
+      return getLoadMoreList(d?.nextId, 4)
     },
     {
-      manual:true,
+      manual: true,
       loadMore: true,
       ref: ref,
       isNoMore: (d) => d?.nextId === undefined,
-      refreshDeps:[val],
-      formatResult:(r)=>({
-        list:r.list,
-        nextId:r.nextId, 
-        total:r.list.length
+      formatResult: (r) => ({
+        list: r.list,
+        nextId: r.nextId,
+        total: r.list.length
       })
     },
   );
-    console.log(loading);
-    
+  const [flag, setFlag] = useState(false);
   return (
-    <ScrollView ref={ref} style={{ height: 150,  border: '1px solid' }} scrollY >
+    <ScrollView ref={ref} style={{ height: 150, border: '1px solid' }} scrollY >
 
+      <Button onClick={() => {
+        setFlag(true)
 
-      {loading ? (
-        <Text>loading</Text>
-      ) : (
-        <View>
-          {data?.list?.map((item) => (
-            <View key={item} style={{ padding: 12, border: '1px solid #f5f5f5' }}>
-              item-{item}
+        reload()
+      }}>reload</Button>
+      {
+        flag && (
+          <View>
+            {loading ? (
+              <Text>loading</Text>
+            ) : (
+              <View>
+                {data?.list?.map((item) => (
+                  <View key={item} style={{ padding: 12, border: '1px solid #f5f5f5' }}>
+                    item-{item}
+                  </View>
+                ))}
+              </View>
+            )}
+
+            <View style={{ marginTop: 8 }}>
+              {!noMore && (
+                <Text>
+                  {loadingMore ? 'Loading more...' : 'Click to load more'}
+                </Text>
+              )}
+
+              {noMore && <Text>No more data</Text>}
             </View>
-          ))}
-        </View>
-      )}
+          </View>
+        )
+      }
 
-      <View style={{ marginTop: 8 }}>
-        {!noMore && (
-          <Text>
-            {loadingMore ? 'Loading more...' : 'Click to load more'}
-          </Text>
-        )}
-
-        {noMore && <Text>No more data</Text>}
-      </View>
     </ScrollView>
   );
 };

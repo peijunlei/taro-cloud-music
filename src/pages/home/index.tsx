@@ -15,7 +15,7 @@ import { useToast } from "taro-hooks";
 
 const Index = () => {
   const { home } = useStores()
-  const [show, hide] = useToast({icon:'none'});
+  const [show, hide] = useToast({icon:'none',mask:true});
   const init = async () => {
     const result = await Promise.all([searchDefault(), homeBanner(), personalized(), toplistDetail()])
     console.log(result);

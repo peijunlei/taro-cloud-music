@@ -1,6 +1,8 @@
 
 
 // @flow 
+import Taro, { navigateTo } from '@tarojs/taro';
+
 import CButton from '@/components/c-button';
 import { playCountAddUnit } from '@/utils/common';
 import { Flex } from '@taroify/core';
@@ -20,7 +22,11 @@ const Recommend = ({ list }: Props) => {
       <Flex wrap="wrap" gutter={10}>
         {
           list.length > 0 && list.map((item, index) =>
-            <Flex.Item span={8} key={index}>
+            <Flex.Item
+              span={8}
+              key={index}
+              onClick={() => navigateTo({ url: `/package-A/pages/song-list-detail/index?id=${item.id}` })}
+            >
               <View className={styles.imgWrapper}>
                 <CButton
                   type='play'

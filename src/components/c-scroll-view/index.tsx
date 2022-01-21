@@ -7,8 +7,9 @@ import React, { FC, forwardRef } from 'react'
 import loadingImg from '@/assets/loading/loading.gif'
 import styles from './index.module.scss'
 import classNames from 'classnames';
-import empty from '@/assets/images/empty.png'
 import { pxTransform } from '@tarojs/taro';
+import { Empty } from '@taroify/core';
+import Loading from '../loading';
 interface CScrollViewProps extends ScrollViewProps {
   /**加载更多中... */
   loadingMore?: boolean;
@@ -22,12 +23,19 @@ interface CScrollViewProps extends ScrollViewProps {
   height?: number;
 };
 const CScrollvView: FC<CScrollViewProps> = forwardRef((props, ref) => {
-  const { noMore, renderItem, loading, list, height = 100,className, ...rest } = props;
+  const { noMore, renderItem, loading, list, height = 100, className, ...rest } = props;
+  console.log('====================================');
+  console.log(ref);
+  console.log('====================================');
   const renderLoading = () => {
-    return loading && <Image src={loadingImg} className={styles.loading} />
+    return loading && <Loading />
   }
   const renderEmpty = () => {
-    return !loading && list.length === 0 && <Image src={empty} className={styles.empty} />
+    return !loading && list.length === 0 &&
+      <Empty>
+        <Empty.Image src="search" />
+        <Empty.Description>搜索为空</Empty.Description>
+      </Empty>
   }
   const renderLoadMore = () => {
     if (loading || list.length === 0) return null;
@@ -40,7 +48,7 @@ const CScrollvView: FC<CScrollViewProps> = forwardRef((props, ref) => {
       scrollY
       showScrollbar={false}
       enhanced
-      className={classNames(styles.scroll_view,className)}
+      className={classNames(styles.scroll_view, className)}
       style={{ height: `calc(100vh - ${pxTransform(height)})` }}
     >
       {renderLoading()}

@@ -12,8 +12,8 @@ export const searchSuggestion = (keywords: string, { type = 'mobile' } = {}) => 
 }
 
 /**搜索结果列表 */
-export const searchList =async ({ keywords, offset }: ISearch) => {
-  // await new Promise((resolve, reject) => {setTimeout(resolve,1000)})
-  return (fetch.get<SearchList.Response>('/cloudsearch', { keywords, limit: 10, offset }));
+export const searchList =async ({ keywords, offset, limit}: ISearch) => {
+  await new Promise((resolve, reject) => {setTimeout(resolve,500)})
+  return (fetch.get<SearchList.Response>('/cloudsearch', { keywords, limit, offset }));
 
 }

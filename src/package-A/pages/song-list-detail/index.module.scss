@@ -1,0 +1,109 @@
+$img: "https://static.pexels.com/photos/373934/pexels-photo-373934.jpeg";
+.song_list__detail {
+  height: 100vh;
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  .info_wrapper {
+    padding: 20px;
+  }
+  .container {
+    padding: 20px;
+    padding-bottom: 0;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  .share {
+    display: inline-block;
+    padding: 0 40px;
+    height: 60px;
+    margin: 40px 0;
+    color: #fff;
+    line-height: 60px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.2);
+    text {
+      margin-left: 10px;
+    }
+  }
+  .info {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+
+    .info_left {
+      position: relative;
+      .coverImg {
+        width: 240px;
+        height: 240px;
+        border-radius: 20px;
+      }
+      .playCount {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+    }
+    .info_right {
+      width: calc(100% - 240px);
+      padding-left: 40px;
+      .name {
+        width: 100%;
+        font-size: 32px;
+        color: #fff;
+      }
+      .creator {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+        .avatarUrl {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+        .nickname {
+          flex: 1;
+          color: #fff;
+        }
+      }
+      .description {
+        font-size: 20px;
+        color: #fff;
+        white-space: break-spaces;
+      }
+    }
+  }
+  .list {
+    border-top-right-radius: 40px;
+    border-top-left-radius: 40px;
+    background-color: #fff;
+    padding: 0 20px;
+    padding-top: 30px;
+    // overflow: hidden;
+    .header {
+      display: flex;
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      background-color: #fff;
+      align-items: center;
+      font-size: 30px;
+      padding: 20px 0;
+      letter-spacing: 2px;
+      .grey {
+        color: #999;
+        font-size: 26px;
+      }
+    }
+    .virtual_list {
+      padding-bottom: env(safe-area-inset-bottom);
+
+      // height: 100vh!important;
+    }
+  }
+}

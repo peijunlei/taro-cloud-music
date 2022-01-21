@@ -9,7 +9,8 @@ export default {
       "root": "package-A",
       "pages": [
         "pages/search/index",
-        "pages/login/index"
+        "pages/login/index",
+        "pages/song-list-detail/index",
       ]
     }
   ],

@@ -4,6 +4,8 @@ import { noop } from '@/globalType';
 import { View, Text } from '@tarojs/components';
 import classnames from 'classnames';
 import React, { FC } from 'react';
+import { PlayCircleOutlined } from "@taroify/icons"
+
 import styles from './index.module.scss';
 /**文字高亮 */
 const getHighlightValue = (value: string, highlightValue?: string) => {
@@ -38,7 +40,7 @@ const ListItem: FC<IItem> = ({ data: item, onPlay, searchVal }) => {
           </View>
         </View>
       </View>
-      <View className='at-icon at-icon-play'></View>
+      <PlayCircleOutlined size={30} style={{ color: "#ccc" }} />
     </View>
   )
 }

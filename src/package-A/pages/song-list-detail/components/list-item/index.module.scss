@@ -1,0 +1,35 @@
+.listItem {
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  border-bottom: 1px solid #f0f0f0;
+  .num {
+    width: 60px;
+    color: #999;
+  }
+  .info {
+    flex: 1;
+    .wraperName {
+      @include ellipsis();
+      color: #333;
+    }
+
+    .ar {
+      display: flex;
+      align-items: center;
+      color: #999;
+      font-size: 20px;
+      :global {
+        .icon-sq {
+          font-size: 36px;
+          color: $primary-red;
+        }
+      }
+      .arName {
+        @include ellipsis();
+        margin-left: 10px;
+      }
+    }
+  }
+}

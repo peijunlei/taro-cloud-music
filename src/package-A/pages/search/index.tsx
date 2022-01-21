@@ -62,7 +62,7 @@ const Index = () => {
         onChange={(value) => handleChange(value)}
         onConfirm={(value) => handleSearch(value)}
         onFocus={(val) => {
-          console.log(val);
+          if(val.trim() === '')return
           setValue(val);
           setDone(false)
           runSearchSuggestionList(val)

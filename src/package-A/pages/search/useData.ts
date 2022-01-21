@@ -34,7 +34,7 @@ const useData = () => {
     console.log(d?.offset, d?.list);
     console.log('====================================');
     setOffset(offset + 1)
-    return querySearchList(keywords, offset)
+    return querySearchList(keywords, offset*30,30)
   }
     , {
       manual: true,
@@ -42,8 +42,8 @@ const useData = () => {
       reloadDeps: [keywords],
       isNoMore: (d) => (d ? d.list.length >= d.total : false),
     });
-  const querySearchList = async (keywords, offset) => {
-    const { res, err } = await searchList({ keywords, offset })
+  const querySearchList = async (keywords, offset,limit) => {
+    const { res, err } = await searchList({ keywords, offset,limit })
     if (!err && !!res) {
       return {
         list: res.result.songs,

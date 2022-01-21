@@ -27,9 +27,7 @@ const CButton: FC<Props> = (
 ) => {
   return (
     <View
-      className={classNames(styles.btn, styles[type], {
-        [className]: !!className,
-      })}
+      className={classNames(styles.btn, styles[type], className)}
       onClick={type === 'more' ? moreLink : undefined}
     >
       {prefix}
