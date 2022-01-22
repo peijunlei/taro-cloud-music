@@ -3,7 +3,7 @@ import { Cache } from '@/constants';
 
 class HttpRequest {
   /**baseUrl */
-  private baseUrl = 'http://192.168.0.101:3001';
+  private baseUrl = 'http://192.168.0.104:3001';
   /** token */
   private token?: string;
   /** 请求地址 */
