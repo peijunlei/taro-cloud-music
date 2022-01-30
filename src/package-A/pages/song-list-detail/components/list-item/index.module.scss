@@ -10,6 +10,15 @@
   }
   .info {
     flex: 1;
+    display: flex;
+    .al_img {
+      width: 100px;
+      height: 100px;
+    }
+    .info_info {
+      flex: 1;
+      padding-left: 20px;
+    }
     .wraperName {
       @include ellipsis();
       color: #333;

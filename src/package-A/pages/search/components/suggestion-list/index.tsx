@@ -5,6 +5,7 @@ import { View, Text, Image } from '@tarojs/components';
 import classNames from 'classnames';
 import React from 'react';
 import styles from './index.module.scss';
+import { Search } from '@taroify/icons'
 type Props = {
   searchVal: string
   list: SearchSuggestion.AllMatch[];
@@ -23,7 +24,7 @@ const SuggestionList = ({ list, onSearch, searchVal }: Props) => {
               className={styles.listItem}
               onClick={()=>onSearch(item.keyword)}
             >
-              <View className='at-icon at-icon-search'></View>
+             <Search />
               <Text className={styles.keyword}>{item.keyword}</Text>
             </View>
           )

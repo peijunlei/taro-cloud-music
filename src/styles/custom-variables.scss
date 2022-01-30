@@ -7,6 +7,9 @@ $primary-red: #ff4949;
 $primary-yellow: #ffc82c;
 $primary-green: #13ce66;
 
+@mixin safeBottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
 @mixin ellipsis($line: 1) {
   display: -webkit-box;
   -webkit-box-orient: vertical;

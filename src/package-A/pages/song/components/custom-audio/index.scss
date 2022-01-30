@@ -1,0 +1,22 @@
+.custom-audio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  .slider {
+    flex: 1;
+    margin: 0 20px;
+    .custom-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: $primary-color;
+    }
+  }
+  .audio-btn {
+    width: 100px;
+    height: 100px;
+  }
+}

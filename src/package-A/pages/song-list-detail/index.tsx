@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import {  View, Text, Image } from "@tarojs/components";
+import { View, Text, Image } from "@tarojs/components";
 import { Play, ShareOutlined, PlayCircleOutlined } from '@taroify/icons';
 import styles from './index.module.scss'
 import classnames from "classnames";
@@ -9,17 +9,19 @@ import { playCountAddUnit } from "@/utils/common";
 import { useToggle, useVirtualList } from "ahooks";
 import CScrollvView from "@/components/c-scroll-view";
 import ListItem from "./components/list-item/list-item";
-import { pxTransform } from "@tarojs/taro";
+import Taro, { pxTransform, navigateTo } from "@tarojs/taro";
 import { ShareSheet } from "@taroify/core";
 import Loading from "@/components/loading";
 import EmptyError from "@/components/empty";
+import { checkMusic } from "@/web-api";
+import { useToast } from "taro-hooks";
 
 
 const BasicShareSheet = ({ open, toggle }) => {
-  const handleSelect=(e) => {
+  const handleSelect = (e) => {
     toggle()
     console.log(e);
-    
+
   }
   return (
     <ShareSheet open={open} onSelect={handleSelect} onClose={toggle} onCancel={toggle}>
@@ -38,7 +40,22 @@ const BasicShareSheet = ({ open, toggle }) => {
 const SongListDetail = () => {
   const { data, loading, error } = useData()
   const [open, { toggle }] = useToggle(false)
+  const [show] = useToast({
+    mask: true,
+    icon: 'none',
+  });
+  const handlePlay = async (id: number) => {
 
+    const { err, res } = await checkMusic(id)
+    if (!err && !!res) {
+      if (res.success) {
+        navigateTo({ url: `/package-A/pages/song/index?id=${id}` })
+      } else {
+        show({ title: res.message })
+        return
+      }
+    }
+  }
   if (!loading && !data) {
     return (
       <EmptyError />
@@ -102,7 +119,7 @@ const SongListDetail = () => {
                 key={index}
                 data={track}
                 index={index}
-                onPlay={() => { }}
+                onPlay={() => handlePlay(track.id)}
               />)
             }
           </View>

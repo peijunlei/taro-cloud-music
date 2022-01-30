@@ -11,9 +11,11 @@ export default {
         "pages/search/index",
         "pages/login/index",
         "pages/song-list-detail/index",
+        "pages/song/index",
       ]
     }
   ],
+  requiredBackgroundModes: ["audio"],
   window: {
     backgroundTextStyle: "dark",
     navigationBarBackgroundColor: "#fff",

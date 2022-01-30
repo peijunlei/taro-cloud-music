@@ -15,6 +15,8 @@ import CScrollvView from "@/components/c-scroll-view";
 import classnames from "classnames";
 import ListItem from "./components/search-list/list-item";
 import { pxTransform } from "@tarojs/taro";
+import { CloudCache } from "@/constants";
+import HistorySearchList from "./components/history-search-list";
 
 const Index = () => {
   const { home, search } = useStores()
@@ -33,12 +35,14 @@ const Index = () => {
     setValue,
     setOffset,
     setKeywords,
+    historyList,
+    set,
   } = useData()
   const handleChange = (val: string) => {
     setValue(val);
     runSearchSuggestionList(val);
   }
-  const handleSearch = async (keywords: string) => {
+  const handleSearch = useCallback(async (keywords: string) => {
     console.log('====================================');
     console.log(keywords);
     console.log('====================================');
@@ -52,7 +56,14 @@ const Index = () => {
     setKeywords(keywords)
     setValue(keywords)
     setDone(true)
-  }
+    /**缓存 */
+    historyList.push(keywords)
+    const _historyList = Array.from(new Set(historyList));
+    console.log('====================================');
+    console.log(_historyList);
+    console.log('====================================');
+    await set(CloudCache.SEARCH_HISTORY, _historyList)
+  }, [])
   return (
     <View className={styles.wrapper}>
       <HeaderSearch
@@ -62,13 +73,19 @@ const Index = () => {
         onChange={(value) => handleChange(value)}
         onConfirm={(value) => handleSearch(value)}
         onFocus={(val) => {
-          if(val.trim() === '')return
+          if (val.trim() === '') return
           setValue(val);
           setDone(false)
           runSearchSuggestionList(val)
         }}
       />
       <View className={styles.con}>
+        {
+          !done && (
+            <HistorySearchList onSearch={handleSearch} />
+          )
+        }
+
         {
           done && (
             <CScrollvView
@@ -96,7 +113,7 @@ const Index = () => {
           )
         }
         {
-          !value &&!done&& (
+          !value && !done && (
             < HotSearchList
               list={hotSearchList}
               onSearch={(value) => handleSearch(value)}

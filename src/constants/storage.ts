@@ -1,4 +1,5 @@
 
-export const Cache={
+export const CloudCache={
   TOKEN:'token',
+  SEARCH_HISTORY:'SEARCH_HISTORY'
 }

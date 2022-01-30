@@ -1,0 +1,27 @@
+.historySearchList {
+  padding: 0 20px;
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .title {
+      font-size: 30px;
+      font-weight: bold;
+    }
+  }
+ 
+  .list {
+    max-height: 240px;
+    overflow: hidden;
+    .listItem {
+      padding: 0 20px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 30px;
+      color:#666;
+      background-color: #eee;
+      margin-bottom: 20px;
+    }
+  }
+}

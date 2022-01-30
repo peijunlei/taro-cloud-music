@@ -1,13 +1,15 @@
+import { CloudCache } from "@/constants";
 import useStores from "@/hooks/useStores"
 import { useInfiniteScroll } from "ahooks";
 import { useRef, useState } from "react";
-import { useRequest } from "taro-hooks";
+import { useRequest,useStorage } from "taro-hooks";
 import { searchHot, searchList, searchSuggestion } from "./web-api";
 
 
 const useData = () => {
 
-
+  const [storageInfo, { set, get, remove }] = useStorage();
+  const historyList = storageInfo.storage[CloudCache.SEARCH_HISTORY] || []
   // const { home, search } = useStores()
   const [value, setValue] = useState<string>()
   const [keywords, setKeywords] = useState<string>()
@@ -55,7 +57,6 @@ const useData = () => {
       total: 0,
     }
   }
-
   return {
     value,
     setValue,
@@ -70,7 +71,9 @@ const useData = () => {
     searchList: data?.list || [],
     runSearchSuggestionList,
     runSearchList,
-    loadMore
+    loadMore,
+    set,
+    historyList
   }
 }
 

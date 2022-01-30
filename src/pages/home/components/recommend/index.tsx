@@ -5,10 +5,11 @@ import Taro, { navigateTo } from '@tarojs/taro';
 
 import CButton from '@/components/c-button';
 import { playCountAddUnit } from '@/utils/common';
-import { Flex } from '@taroify/core';
+import { Flex, Image } from '@taroify/core';
 import { Play } from '@taroify/icons';
+import { Photo, PhotoFail } from "@taroify/icons"
 
-import { View, Image, Text } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import classNames from 'classnames';
 import React, { FC } from 'react';
 import styles from './index.module.scss'
@@ -34,7 +35,12 @@ const Recommend = ({ list }: Props) => {
                   className={styles.playCount}
                   prefix={<Play />}
                 />
-                <Image src={item.picUrl} className={styles.img} />
+                <Image src={item.picUrl}
+                  className={styles.img}
+                  lazyLoad
+                  placeholder={<Photo />}
+                  fallback={<PhotoFail />}
+                />
               </View>
               <View className={classNames('taroify-ellipsis--l2')}>{item.name}</View>
             </Flex.Item>

@@ -12,10 +12,11 @@ import HeaderSearch from "@/components/header-search";
 import ListTitle from "@/components/list-title";
 import TopList from "./components/top-list";
 import { useToast } from "taro-hooks";
+import PlayTool from "@/components/play-tool";
 
 const Index = () => {
   const { home } = useStores()
-  const [show, hide] = useToast({icon:'none',mask:true});
+  const [show, hide] = useToast({ icon: 'none', mask: true });
   const init = async () => {
     const result = await Promise.all([searchDefault(), homeBanner(), personalized(), toplistDetail()])
     console.log(result);
@@ -42,12 +43,12 @@ const Index = () => {
           list={home.banners}
         />
         <SizeBox height={20} />
-        <ListTitle title='推荐歌单' moreLink={() => show({title:'推荐歌单'})} />
+        <ListTitle title='推荐歌单' moreLink={() => show({ title: '推荐歌单' })} />
         <Recommend list={home.personalizedList} />
-        <ListTitle title='网抑云热歌榜' moreLink={() => show({title:'网抑云热歌榜'})} />
+        <ListTitle title='网抑云热歌榜' moreLink={() => show({ title: '网抑云热歌榜' })} />
         <TopList list={home.toplist} />
-
       </View>
+      <PlayTool />
     </View>
   );
 };

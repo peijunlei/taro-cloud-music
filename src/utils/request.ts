@@ -1,9 +1,9 @@
 import Taro from '@tarojs/taro';
-import { Cache } from '@/constants';
+import { CloudCache } from '@/constants';
 
 class HttpRequest {
   /**baseUrl */
-  private baseUrl = 'http://192.168.0.104:3001';
+  private baseUrl = 'http://192.168.0.101:3001';
   /** token */
   private token?: string;
   /** 请求地址 */
@@ -16,7 +16,7 @@ class HttpRequest {
   };
 
   constructor(options?: HttpRequestOptions) {
-    this.token = Taro.getStorageSync(Cache.TOKEN) || '';
+    this.token = Taro.getStorageSync(CloudCache.TOKEN) || '';
     this.host = options?.host || this.baseUrl;
   }
 
@@ -116,7 +116,7 @@ class HttpRequest {
    */
   public setToken(token: string) {
     this.token = token;
-    Taro.setStorageSync(Cache.TOKEN, token);
+    Taro.setStorageSync(CloudCache.TOKEN, token);
   }
 
   /**
@@ -124,7 +124,7 @@ class HttpRequest {
    */
   public removeToken() {
     this.token = '';
-    Taro.removeStorageSync(Cache.TOKEN);
+    Taro.removeStorageSync(CloudCache.TOKEN);
   }
 
   /**
