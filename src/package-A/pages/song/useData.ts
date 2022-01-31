@@ -5,7 +5,9 @@ import { useRequest, useToast } from "taro-hooks";
 import { songDetails, songUrl } from "./web-api";
 
 const bgAudioContext = Taro.createInnerAudioContext()
+
 const useData = () => {
+  
   const [show] = useToast({ mask: true, icon: 'none' });
 
   const { id } = useRouterParams<{ id: string }>()
@@ -18,11 +20,8 @@ const useData = () => {
     }),
     onSuccess: res => {
       bgAudioContext.src = res.url;
-      console.log('====================================');
-      console.log( bgAudioContext.src);
-      console.log('====================================');
       if (bgAudioContext.src) {
-        bgAudioContext.autoplay = true
+        // bgAudioContext.autoplay = true
       } else {
         show({ title:'自动播放失败'})
       }
