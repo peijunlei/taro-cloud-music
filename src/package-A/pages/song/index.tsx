@@ -25,6 +25,7 @@ const Index = () => {
       bgAudioContext.pause()
     }
   }
+  /**长按预览 */
   const handleLongPress = (url: string) => {
     Taro.previewImage({
       current: url, // 当前显示图片的http链接
@@ -34,14 +35,18 @@ const Index = () => {
   }
   const handleChange = (e) => {
     bgAudioContext.pause()
-
     const value = e.detail.value
-    const dt = details?.dt || 0
-    const currentTime = Math.floor(((dt / 1000) * value) / 100);
-    setCurrentTime(currentTime)
     setPrecent(value)
+    const currentTime = Math.floor((bgAudioContext.duration * value) / 100);
+    setCurrentTime(currentTime)
+    console.log('====================================');
+    console.log('进度', value);
+    console.log('====================================');
     bgAudioContext.seek(currentTime);
-    bgAudioContext.play();
+    //TODO seek 直接播放 onTimeUpdate事件不会触发 ?
+    setTimeout(() => {
+      bgAudioContext.play();
+    }, 500)
   }
   const handleChanging = (e) => {
     if (!bgAudioContext.paused) {
@@ -51,10 +56,10 @@ const Index = () => {
   useEffect(() => {
     bgAudioContext.onTimeUpdate(() => {
       const currentTime = Math.floor(bgAudioContext.currentTime)
-      const precent = Math.floor((bgAudioContext.currentTime * 1000) / (details?.dt || 0))
+      const precent = Math.floor(bgAudioContext.currentTime * 100 / bgAudioContext.duration)
       setCurrentTime(currentTime)
       setPrecent(precent)
-      console.log('onTimeUpdate', bgAudioContext.currentTime);
+      console.log('precent', precent + '%');
     })
     bgAudioContext.onError(() => {
       show({ title: '播放失败' })
@@ -64,17 +69,11 @@ const Index = () => {
     })
     bgAudioContext.onPlay(() => {
       setPaused(false);
-      console.log('====================================');
-      console.log('onPlay',precent);
-      console.log('====================================');
     })
     bgAudioContext.onPause(() => {
       setPaused(true);
-      console.log('====================================');
-      console.log('onPause',precent);
-      console.log('====================================');
     })
-  }, [details?.dt])
+  }, [])
   const fmtSecond = (time: number) => {
     let min = 0
     let second = 0
@@ -106,7 +105,8 @@ const Index = () => {
         <View className={styles.time_line}>
           <View className={styles.time}>{fmtSecond(currentTime)}</View>
           <Slider
-            blockSize={15}
+            blockSize={12}
+            blockColor='rgba(255,255,255,0.3)'
             activeColor="#d43c33"
             value={precent}
             className={styles.slider}
