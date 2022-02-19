@@ -1,24 +1,46 @@
+import Taro from "@tarojs/taro";
 import { Button, View, Text, Image, Slider } from "@tarojs/components";
 import { useMount, useToggle, useUnmount } from "ahooks";
 import classNames from "classnames";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from './index.module.scss'
 import useData from "./useData";
+//暂停播放
 import pauseImg from '@/assets/play_tool/play_pause.png';
 import playImg from '@/assets/play_tool/play_play.png';
+//上下首切换  播放模式
 import prevImg from '@/assets/play_tool/play_prev.png';
 import nextImg from '@/assets/play_tool/play_next.png';
+import loopImg from '@/assets/play_tool/play_loop.png';
+import oneImg from '@/assets/play_tool/play_one.png';
+import shuffleImg from '@/assets/play_tool/play_shuffle.png';
+import listImg from '@/assets/play_tool/play_list.png';
+
+//磁盘背景
 import playTool from '@/assets/images/song/play_tool.png';
 import playPanel from '@/assets/images/song/play_panel.png';
-import Taro from "@tarojs/taro";
-import { useToast } from "taro-hooks";
+import { observer } from "mobx-react";
+import { useStores } from "@/hooks";
+import { PlayMode } from "@/store/global";
+import { Popup } from "@taroify/core";
+import { CloudCache } from "@/constants";
+const PlayModeImg = {
+  Loop: loopImg,
+  One: oneImg,
+  Shuffle: shuffleImg
+}
 const Index = () => {
+  const { global } = useStores()
   const { details, paused, bgAudioContext, setPaused, show, coverImgUrl } = useData()
-
   const [currentTime, setCurrentTime] = useState(0)
   const [precent, setPrecent] = useState(0)
+  const [lrcVisible, { toggle: toggleLrcVisible }] = useToggle(false)
+  const [open, { toggle: toggleOpen }] = useToggle(false)
 
   const handlePlay = () => {
+    console.log('====================================');
+    console.log(paused);
+    console.log('====================================');
     if (paused) {
       bgAudioContext.play()
     } else {
@@ -43,12 +65,12 @@ const Index = () => {
     console.log('进度', value);
     console.log('====================================');
     bgAudioContext.seek(currentTime);
-    //TODO seek 直接播放 onTimeUpdate事件不会触发 ?
+
     setTimeout(() => {
       bgAudioContext.play();
-    }, 500)
+    }, 500);
   }
-  const handleChanging = (e) => {
+  const handleChanging = () => {
     if (!bgAudioContext.paused) {
       bgAudioContext.pause()
     }
@@ -56,7 +78,7 @@ const Index = () => {
   useEffect(() => {
     bgAudioContext.onTimeUpdate(() => {
       const currentTime = Math.floor(bgAudioContext.currentTime)
-      const precent = Math.floor(bgAudioContext.currentTime * 100 / bgAudioContext.duration)
+      const precent = Math.floor((bgAudioContext.currentTime * 100 / bgAudioContext.duration) || 0)
       setCurrentTime(currentTime)
       setPrecent(precent)
       console.log('precent', precent + '%');
@@ -73,6 +95,10 @@ const Index = () => {
     bgAudioContext.onPause(() => {
       setPaused(true);
     })
+    bgAudioContext.onEnded(() => {
+      bgAudioContext.pause()
+      setPaused(true);
+    })
   }, [])
   const fmtSecond = (time: number) => {
     let min = 0
@@ -85,21 +111,54 @@ const Index = () => {
     }
     return `${min}:${second}`
   }
+  const handleChangePlayMode = () => {
+    switch (global.playMode) {
+      case PlayMode.Loop:
+        global.setPlayMode(PlayMode.One)
+        show({ title: '单曲循环' })
+        break;
+      case PlayMode.One:
+        global.setPlayMode(PlayMode.Shuffle)
+        show({ title: '随机播放' })
+        break;
+      case PlayMode.Shuffle:
+        global.setPlayMode(PlayMode.Loop)
+        show({ title: '循环播放' })
+        break;
+      default:
+        break;
+    }
+    /**缓存本地播放模式 */
+    Taro.setStorageSync(CloudCache.SEARCH_HISTORY,global.playMode)
+  }
   return (
     <View className={styles.song}>
-      <View className={styles.main}>
-        <Image src={playTool} className={styles.play_point}
-          style={{ transform: `rotate(${paused ? '-20' : 0}deg)` }}
-        />
-        <View className={classNames(styles.play_panel, { [styles.pause]: paused })}>
-          <Image src={playPanel} className={styles.bg_img} />
-          <Image
-            src={coverImgUrl}
-            className={classNames(styles.coverImgUrl)}
-            onLongPress={() => handleLongPress(coverImgUrl)}
-          />
-        </View>
-      </View>
+      <Image
+        mode='aspectFill'
+        src={coverImgUrl}
+        className={classNames(styles.bg_img)}
+      />
+      {
+        lrcVisible ? (
+          <View className={styles.lrc_wrapper} onClick={toggleLrcVisible}>
+            geci
+          </View>
+        ) : (
+          <View className={styles.main} onClick={toggleLrcVisible}>
+            <Image src={playTool} className={styles.play_point}
+              style={{ transform: `rotate(${paused ? '-20' : 0}deg)` }}
+            />
+            <View className={classNames(styles.play_panel, { [styles.pause]: paused })}>
+              <Image src={playPanel} className={styles.bg_img} />
+              <Image
+                src={coverImgUrl}
+                className={classNames(styles.coverImgUrl)}
+                onLongPress={() => handleLongPress(coverImgUrl)}
+              />
+            </View>
+          </View>
+        )
+      }
 
       <View className={styles.custom_audio}>
         <View className={styles.time_line}>
@@ -117,20 +176,25 @@ const Index = () => {
         </View>
 
         <View className={styles.play_tool} >
-          <View className={styles.play_prev}>
-            <Image src={prevImg} className={styles.icon} />
-          </View>
-          <View className={classNames(styles.play_pause)} onClick={handlePlay}>
-            <Image src={paused ? pauseImg : playImg} className={classNames(styles.icon, styles.play)} />
-          </View>
-          <View className={styles.play_next}>
-            <Image src={nextImg} className={styles.icon} />
-          </View>
+          <Image src={PlayModeImg[global.playMode]} className={styles.icon} onClick={handleChangePlayMode} />
+          <Image src={prevImg} className={styles.icon} />
+          <Image src={paused ? pauseImg : playImg} onClick={handlePlay} className={classNames(styles.icon, styles.play)} />
+          <Image src={nextImg} className={styles.icon} />
+          <Image src={listImg} className={styles.icon} onClick={toggleOpen} />
         </View>
       </View>
+      <Popup
+        open={open}
+        rounded
+        placement="bottom"
+        style={{ height: '50%' }}
+        onClose={toggleOpen}
 
+      >
+        <View>1</View>
+      </Popup>
     </View>
   )
 };
 
-export default Index;
+export default observer(Index);

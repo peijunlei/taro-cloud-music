@@ -9,4 +9,8 @@ export const songDetails = (id: string) => {
 export const songUrl = (id: string) => {
   return fetch.get<SongUrl.Response>(`/song/url?id=${id}`)
 }
+/**歌词lyric*/
+export const songlyric = (id: string) => {
+  return fetch.get<SongUrl.Response>(`/lyric?id=${id}`)
+}
 

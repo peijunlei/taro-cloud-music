@@ -1,6 +1,6 @@
 import HeaderSearch from "@/components/header-search";
 import useStores from "@/hooks/useStores";
-import { useRequest } from 'taro-hooks';
+import { useRequest, useToast } from 'taro-hooks';
 import loadingImg from '@/assets/loading/loading.gif'
 import { Button, View, Text, Image } from "@tarojs/components";
 import { observer } from "mobx-react";
@@ -17,6 +17,8 @@ import ListItem from "./components/search-list/list-item";
 import { pxTransform } from "@tarojs/taro";
 import { CloudCache } from "@/constants";
 import HistorySearchList from "./components/history-search-list";
+import Taro from "@tarojs/taro";
+import { checkMusic } from "@/web-api";
 
 const Index = () => {
   const { home, search } = useStores()
@@ -38,9 +40,25 @@ const Index = () => {
     historyList,
     set,
   } = useData()
+  const [show] = useToast({
+    mask: true,
+    icon: 'none',
+  });
   const handleChange = (val: string) => {
     setValue(val);
     runSearchSuggestionList(val);
+  }
+  const handlePlay = async (id: number) => {
+
+    const { err, res } = await checkMusic(id)
+    if (!err && !!res) {
+      if (res.success) {
+        Taro.navigateTo({ url: `/package-A/pages/song/index?id=${id}` })
+      } else {
+        show({ title: res.message })
+        return
+      }
+    }
   }
   const handleSearch = useCallback(async (keywords: string) => {
     console.log('====================================');
@@ -98,7 +116,7 @@ const Index = () => {
               loadingMore={loadingMore}
               className={classnames(styles.searchList)}
               list={searchList}
-              renderItem={(item, index) => <ListItem key={index} data={item} onPlay={() => { }} searchVal={value} />
+              renderItem={(item, index) => <ListItem key={index} data={item} onPlay={() => handlePlay(item.id)} searchVal={value} />
               }
             />
           )

@@ -1,15 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, ScrollView, Text, View } from '@tarojs/components';
 import { useRequest } from 'taro-hooks';
 
 interface Result {
   list: string[];
-  nextId: string | undefined;
+  nextId: number|undefined;
 }
 
-const resultData = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'];
+const resultData = Array.from(Array(999).keys())
 
-function getLoadMoreList(nextId: string | undefined, limit: number): Promise<Result> {
+function getLoadMoreList(nextId: number | undefined, limit: number): Promise<Result> {
 
   let start = 0;
   if (nextId) {
@@ -33,11 +33,7 @@ export default () => {
   const [val, setValue] = useState('');
   const { data, loading, loadMore, loadingMore, noMore, reload, run } = useRequest(
     (d) => {
-      console.log('=================d===================');
-      console.log(d);
-      console.log('====================================');
-
-      return getLoadMoreList(d?.nextId, 4)
+      return getLoadMoreList(d?.nextId, 20)
     },
     {
       manual: true,
@@ -51,17 +47,13 @@ export default () => {
       })
     },
   );
-  const [flag, setFlag] = useState(false);
+  useEffect(()=>{
+    reload()
+  },[])
   return (
-    <ScrollView ref={ref} style={{ height: 150, border: '1px solid' }} scrollY >
-
-      <Button onClick={() => {
-        setFlag(true)
-
-        reload()
-      }}>reload</Button>
+    <ScrollView ref={ref} style={{ height: '100vh', border: '1px solid red' }} scrollY >
       {
-        flag && (
+          (
           <View>
             {loading ? (
               <Text>loading</Text>
@@ -78,7 +70,7 @@ export default () => {
             <View style={{ marginTop: 8 }}>
               {!noMore && (
                 <Text>
-                  {loadingMore ? 'Loading more...' : 'Click to load more'}
+                  {loadingMore &&'Loading more...'}
                 </Text>
               )}
 
