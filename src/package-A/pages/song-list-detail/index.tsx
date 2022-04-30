@@ -45,7 +45,6 @@ const SongListDetail = () => {
     icon: 'none',
   });
   const handlePlay = async (id: number) => {
-
     const { err, res } = await checkMusic(id)
     if (!err && !!res) {
       if (res.success) {
@@ -103,16 +102,6 @@ const SongListDetail = () => {
             <Text>播放全部</Text>
             <Text className={styles.grey}>{`(共${data.tracks.length}首)`}</Text>
           </View>
-          {/* <CScrollvView
-            className={styles.virtual_list}
-            list={data.tracks}
-            renderItem={(item, index) => <ListItem
-              key={index}
-              data={item}
-              index={index}
-              onPlay={() => { }}
-            />}
-          /> */}
           <View className={styles.virtual_list}>
             {
               data.tracks.map((track, index) => <ListItem

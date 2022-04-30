@@ -15,7 +15,6 @@ const useData = () => {
 
   const [show] = useToast({ mask: true, icon: 'none' });
   const { id } = useRouterParams<{ id: string }>()
-  const [paused, setPaused] = useState(true)
   const [coverImgUrl, setCoverImgUrl] = useState('')
   const { data: urlData } = useRequest(() => songUrl(id), {
     ready: !!id,
@@ -35,24 +34,7 @@ const useData = () => {
   //     // setCoverImgUrl(res.data.al.picUrl)
   //   }
   // });
-  // async function getSongInfo(id: string) {
-  //   const { res } = await songDetails(id)
-  //   if (res) {
-  //     const { res: res1 } = await songUrl(id)
-  //     if (res1) {
-  //       const { res: res2 } = await songlyric(id)
-  //       if (res2) {
-  //         return {
-  //           ...res.songs[0],
-  //           url: res2.data[0].url,
-            
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     show({ title: '获取歌曲详情失败' })
-  //   }
-  // }
+
   return {
     show,
     paused,
@@ -63,7 +45,24 @@ const useData = () => {
     coverImgUrl
   }
 }
+async function getSongInfo(id: string) {
+  const { res } = await songDetails(id)
+  if (res) {
+    const { res: res1 } = await songUrl(id)
+    if (res1) {
+      const { res: res2 } = await songlyric(id)
+      if (res2) {
+        return {
+          ...res.songs[0],
+          url: res2.data[0].url,
 
+        }
+      }
+    }
+  } else {
+    Taro.showToast({ title: '获取歌曲详情失败', icon: 'none' })
+  }
+}
 
 export default useData;
 

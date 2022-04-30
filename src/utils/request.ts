@@ -3,7 +3,7 @@ import { CloudCache } from '@/constants';
 
 class HttpRequest {
   /**baseUrl */
-  private baseUrl = 'http://192.168.0.101:3001';
+  private baseUrl = 'http://192.168.0.102:3000';
   /** token */
   private token?: string;
   /** 请求地址 */

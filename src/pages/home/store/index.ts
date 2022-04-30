@@ -1,9 +1,7 @@
 
 
 import { makeAutoObservable } from 'mobx';
-// import { observable, action, computed } from 'mobx';
 class HomeStore {
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -27,8 +25,5 @@ class HomeStore {
   setToplist(list) {
     this.toplist = list
   }
-
-
-
 }
 export default HomeStore;

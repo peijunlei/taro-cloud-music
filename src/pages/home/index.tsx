@@ -38,17 +38,13 @@ const Index = () => {
       />
       <SizeBox height={20} />
       <View className={styles.con}>
-        <CSwiper
-          // autoplay
-          list={home.banners}
-        />
+        <CSwiper list={home.banners} />
         <SizeBox height={20} />
         <ListTitle title='推荐歌单' moreLink={() => show({ title: '推荐歌单' })} />
         <Recommend list={home.personalizedList} />
         <ListTitle title='网抑云热歌榜' moreLink={() => show({ title: '网抑云热歌榜' })} />
         <TopList list={home.toplist} />
       </View>
-      <PlayTool />
     </View>
   );
 };

@@ -7,7 +7,7 @@ type Props = {
   width?: number;
   height?: number;
 };
- const SizeBox = ({ width=0, height=0 }: Props) => {
+const SizeBox: React.FC<Props> = ({ width = 0, height = 0 }) => {
   return (
     <View style={{ width: pxTransform(width), height: pxTransform(height) }}>
     </View>
